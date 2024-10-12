@@ -18,7 +18,7 @@ def get_player_id(player_name):
 # Get game log data for the player
 def get_player_game_log(player_id, season='2023'):
     gamelog = playergamelog.PlayerGameLog(player_id=player_id, season=season)
-    gamelog_df = gamelog.get_data_frames()[0]  # Convert to pandas DataFrame
+    gamelog_df = gamelog.get_data_frames()[0]  
     return gamelog_df
 
 # Create averages for points, assists, and rebounds
@@ -27,7 +27,7 @@ def preprocess_player_data(player_gamelog):
     player_gamelog['rolling_assists'] = player_gamelog['AST'].rolling(window=5).mean()
     player_gamelog['rolling_rebounds'] = player_gamelog['REB'].rolling(window=5).mean()
 
-    # Drop rows with NaN values resulting from the rolling window
+    
     player_gamelog = player_gamelog.dropna()
     return player_gamelog
 
@@ -37,7 +37,7 @@ def create_target_variable(player_gamelog, over_under_line):
     return player_gamelog
 
 # Caching model training with functools.lru_cache
-@functools.lru_cache(maxsize=10)  # Cache up to 10 models
+@functools.lru_cache(maxsize=10)  
 def train_model_cached(player_name, over_under_line, season='2023'):
     player_id = get_player_id(player_name)
     if player_id:
